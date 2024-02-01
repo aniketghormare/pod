@@ -11,11 +11,9 @@ const Viewpdf = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/getpdf");
+            const response = await axios.get("http://localhost:5000/getallpdf");
             if (response.data.length > 0) {
-                // Set the first PDF element from the response data
                 setPdf(response.data[response.data.length - 1]);
-                console.log(response)
             } else {
                 console.log("No PDFs available.");
             }
@@ -24,49 +22,20 @@ const Viewpdf = () => {
         }
     };
 
-    // const createPdf = async (url) => {
-    //     try {
-    //         const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
-    //         const pdfDoc = await PDFDocument.load(existingPdfBytes);
-    //         const form = pdfDoc.getForm();
-
-    //         const fieldNames = form.getFields().map((field) => field.getName());
-    //         console.log("Field names:", fieldNames);
-
-    //         form.getTextField(fieldNames[0]).setText("Aniket");
-
-    //         const pdfBytes = await pdfDoc.save();
-    //         // Now you can use the `pdfBytes` to display/download the modified PDF
-    //     } catch (error) {
-    //         console.error("Error creating PDF:", error);
-    //     }
-    // }
-
-    const handleClick = async() => {
-        // if (pdf) {
-        //    await createPdf(`http://localhost:5000/uploads/${pdf.filename}`);
-        // }
-        try {
-            await axios.post("http://localhost:5000/upload",{
-                
-            }).then((res)=>{
-                console.log(res)
-            })
-        } catch (error) {
-            console.log(error)
-        }
+    const handleLoad = async (e) => {
+        console.log("PDF loaded successfully");
+        // You can add more functionality here if needed
     }
 
     return (
         <div>
             {pdf ? (
                 <div style={{ width: "100vw", height: "100vh" }}>
-                    <iframe title="PDF Viewer" src={`http://localhost:5000/uploads/${pdf.filename}`} style={{ width: "100%", height: "100%" }} />
+                    <iframe title="PDF Viewer" src={`http://localhost:5000/uploads/${pdf.filename}`} style={{ width: "100%", height: "100%" }} onChange={(e) => handleLoad(e)} />
                 </div>
             ) : (
                 <p>No PDF available.</p>
             )}
-            <button onClick={handleClick} style={{ padding: "15px", backgroundColor: "teal" }}>Submit</button>
         </div>
     );
 };

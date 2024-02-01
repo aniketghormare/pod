@@ -65,7 +65,17 @@ app.post('/upload', upload.single('pdf'), async (req, res) => {
 
 app.get("/getpdf",async(req,res)=>{
     try {
+        //let data=await Pdf.find({})
+        let path="/uploads/result.pdf"
+        res.send(path)
+    } catch (error) {
+        res.send(error)
+    }
+})
+app.get("/getallpdf",async(req,res)=>{
+    try {
         let data=await Pdf.find({})
+        // let path="/uploads/result.pdf"
         res.send(data)
     } catch (error) {
         res.send(error)
